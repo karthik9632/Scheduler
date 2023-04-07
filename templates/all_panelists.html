@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+  <div class="module">
+    <h2>All Panelists for {{ candidate.name }}</h2>
+    <ul>
+    {% for panelist in panelists %}
+      <li>{{ panelist.name }}</li>
+    {% empty %}
+      <li>No panelists found.</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

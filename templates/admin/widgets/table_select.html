@@ -1,0 +1,1 @@
+{% include "django/forms/widgets/table.html" with rows=candidates.values_list('id', 'name', 'email') option_values=widget.value option_label='name' name=name %}
