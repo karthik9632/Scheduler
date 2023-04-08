@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule Interview</title>
+</head>
+<body>
+
+    <a href="{% url 'candidate' %}">Candidate</a>
+    <a href="{% url 'panelists' %}">Panelists</a>
+    <br>
+    <br>
+    <br>
+    {% block content %}{% endblock content %}
+
+</body>
+</html>

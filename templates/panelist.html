@@ -1,0 +1,38 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    {{candidate_id}}
+    <table style="border: 2px solid black; width: 100%;">
+        <thead>
+            <td>sid</td>
+            <td>name</td>
+            <td>email</td>
+            <td>lob</td>
+            <td>is_available</td>
+            <td>number_of_interviews_in_a_month </td>
+            <td>prefered_round </td>
+            <td>location </td>
+            <td></td>
+        </thead>
+        {% for panelist in panelists %}
+        <tr>
+            <td>{{panelist.sid}}</td>
+            <td>{{panelist.name}}</td>
+            <td>{{panelist.email}}</td>
+            <td>{{panelist.lob}}</td>
+            <td>{{panelist.is_available}}</td>
+            <td>{{panelist.number_of_interviews_in_a_month }}</td>
+            <td>{{panelist.prefered_round }}</td>
+            <td>{{panelist.location }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+
+    {% endblock content %}

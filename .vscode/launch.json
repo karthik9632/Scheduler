@@ -11,7 +11,9 @@
             "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
-                "8001"
+                "8001",
+                "--noreload"
+
             ],
             "django": true,
             "justMyCode": true

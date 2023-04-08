@@ -15,28 +15,46 @@ from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
 
-class CandidateInline(admin.TabularInline):
-    model = Interviews
+# class CandidateInline(admin.TabularInline):
+#     model = Interviews
+#     extra = 0
 
 class CandidateAdmin(admin.ModelAdmin):
     list_display = ('req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume', 'view_panelist')
     model = Candidate
-    inlines = [CandidateInline, ]
+    # inlines = [CandidateInline, ]
+
+    def get_queryset(self, request):
+        self.full_path = request.get_full_path()
+        self.session_obj = request.session['schedule'] = {"cobj":"","pobj":""}
+        return super().get_queryset(request)
 
     def view_panelist(self,obj):
         filter_lob = list(set([panelist.lob for panelist in GTIPanelist.objects.all()]))
         if obj.lob in filter_lob:
             filter_lob.remove(obj.lob)
         filter_lob=','.join(filter_lob)
-        return format_html('<a href= "/admin/ttt/candidate/{}/change/" class = "default"> View Panelist </a>'.format(obj.id) )
+        print("vieew")
+        return format_html('<a href= "/admin/ttt/gtipanelist/?lob__in={}#cobj={}" class = "default"> View Panelist </a>'.format(filter_lob, obj.id))
 
 
 class GTIPanelsitInline(admin.TabularInline):
     model = Interviews
+    extra = 0
 
 class GTIPanelsitAdmin(admin.ModelAdmin):
+    list_display = ('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location', 'schedule_interview')
     model = GTIPanelist
     inlines = [GTIPanelsitInline, ]
+
+    def get_queryset(self, request):
+        self.full_path = request.get_full_path()
+        self.session_obj = request.session['schedule'] = {"cobj":"","pobj":""}
+        return super().get_queryset(request)
+    
+    def schedule_interview(self,obj):
+        return format_html(f'<a href= "/admin/ttt/interviews/add/" class = "default"> Schedule </a>' )
+
 
 class InterviewsAdmin(admin.ModelAdmin):
     list_display = ('req_id', 'Interview_date_time', 'interviewer', 'candidate', 'created_at','cancelled_at', 'interview_round', 'status')

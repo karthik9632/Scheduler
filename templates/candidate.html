@@ -1,0 +1,36 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <table style="border: 2px solid black; width: 100%;">
+        <thead>
+            <td>id</td>
+            <td>candidate_name</td>
+            <td>req_id</td>
+            <td>email</td>
+            <td>lob</td>
+            <td>interview_status</td>
+            <td>resume   </td>
+        
+        </thead>
+        {% for candidate in candidates %}
+
+        <tr>
+            <td>{{candidate.id}}</td>
+            <td>{{candidate.candidate_name}}</td>
+            <td>{{candidate.req_id}}</td>
+            <td>{{candidate.email}}</td>
+            <td>{{candidate.lob}}</td>
+            <td>{{candidate.interview_status}}</td>
+            <td>{{candidate.resume   }}</td>
+            <td><a href="{% url 'panelists' %}?candidate_id={{candidate.id}}">view panelists</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+{% endblock content %}
