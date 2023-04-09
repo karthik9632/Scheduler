@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Schedule Interview</title>
-</head>
-<body>
-    <h1>Schedule Interview</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Schedule">
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+    <p>args: </p>
+    <p>{{cid}}</p>
+    <p>{{pid}}</p>
+
+{% endblock content %}

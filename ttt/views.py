@@ -81,3 +81,12 @@ def schedule_list(request):
     return render(request, 'schedule.html', args)
 
 
+def schedule_interview(request):
+    cid = request.GET.get('cid')
+    pid = request.GET.get('pid')
+    print(cid, pid)
+    args ={}
+    args['cid'] = cid
+    args['pid'] = pid
+    return render(request, 'schedule_interview.html', args)
+

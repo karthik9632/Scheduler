@@ -10,12 +10,13 @@
 
 
 from django.urls import path
-from .views import candidate_list, panelists_list, schedule_list
+from .views import candidate_list, panelists_list, schedule_list, schedule_interview
 
 urlpatterns = [
     path('candidate', candidate_list, name='candidate'),
     path('panelist', panelists_list, name='panelists'),
     path('', schedule_list, name='schedules'),
+    path('schedule', schedule_interview, name='schedule_interview'),
     # path('all_panelists/<int:candidate_id>/', all_panelists, name='all_panelists'),
     # ... other URL patterns ...
 ]
