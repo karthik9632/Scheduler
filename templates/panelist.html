@@ -4,18 +4,21 @@
 
 {% block content %}
 
-    {{candidate_id}}
-    <table style="border: 2px solid black; width: 100%;">
-        <thead>
-            <td>sid</td>
-            <td>name</td>
-            <td>email</td>
-            <td>lob</td>
-            <td>is_available</td>
-            <td>number_of_interviews_in_a_month </td>
-            <td>prefered_round </td>
-            <td>location </td>
-            <td></td>
+    <p>Candidate ID: {{candidate_id}} </p>
+    <table class="table">
+
+        <thead class="thead-light">
+            <tr>
+                <th>sid</th>
+                <th>name</th>
+                <th>email</th>
+                <th>lob</th>
+                <th>is_available</th>
+                <th>number_of_interviews_in_a_month </th>
+                <th>prefered_round </th>
+                <th>location </th>
+                <th>Schedule</th>    
+            </tr>
         </thead>
         {% for panelist in panelists %}
         <tr>

@@ -5,16 +5,19 @@
 {% block content %}
 
 
-    <table style="border: 2px solid black; width: 100%;">
-        <thead>
-            <td>id</td>
-            <td>candidate_name</td>
-            <td>req_id</td>
-            <td>email</td>
-            <td>lob</td>
-            <td>interview_status</td>
-            <td>resume   </td>
-        
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>id</th>
+                <th>candidate_name</th>
+                <th>req_id</th>
+                <th>email</th>
+                <th>lob</th>
+                <th>interview_status</th>
+                <th>resume</th>
+                <th>View Panelists</th>                    
+            </tr>
+
         </thead>
         {% for candidate in candidates %}
 
@@ -26,7 +29,7 @@
             <td>{{candidate.lob}}</td>
             <td>{{candidate.interview_status}}</td>
             <td>{{candidate.resume   }}</td>
-            <td><a href="{% url 'panelists' %}?candidate_id={{candidate.id}}">view panelists</a></td>
+            <td><a href="{% url 'panelists' %}?cid={{candidate.id}}">view panelists</a></td>
         </tr>
         {% endfor %}
 

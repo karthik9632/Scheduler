@@ -1,0 +1,40 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>id</th>
+                <th>reqid</th>
+                <th>interview date</th>
+                <th>interviewr id</th>
+                <th>candidate id</th>
+                <th>created at </th>
+                <th>cancelled at </th>
+                <th>interview round</th>
+                <th>Status</th>    
+            </tr>
+        </thead>
+        {% for schedule in schedules %}
+        <tr>
+            <td>{{schedule.id}}</td>
+            <td>{{schedule.req_id}}</td>
+            <td>{{schedule.Interview_date_time}}</td>
+            <td><a href="{% url 'panelists' %}?pid={{schedule.interviewer_id}}">{{schedule.interviewer_id}}</a></td>
+            <td><a href="{% url 'candidate' %}?cid={{schedule.candidate_id}}">{{schedule.candidate_id}}</a></td>
+            <td>{{schedule.created_at}}</td>
+            <td>{{schedule.cancelled_at }}</td>
+            <td>{{schedule.interview_round }}</td>
+            <td>{{schedule.status }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+
+    {% endblock content %}
