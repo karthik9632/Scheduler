@@ -86,15 +86,34 @@ def schedule_interview(request):
     if request.method == 'POST':
         form = ScheduleForm(request.POST)
         if form.is_valid():
-            req_id =form.cleaned_data['req_id']
-            print(req_id)
+            req_id = form.cleaned_data.get('req_id')
+            req_id = Requistion.objects.filter(req_id=req_id).first()
+            interviewer = form.cleaned_data.get('interviewer')
+            interviewer = GTIPanelist.objects.filter(sid=interviewer).first()
+            candidate = form.cleaned_data.get('candidate')
+            candidate = Candidate.objects.filter(id=candidate).first()
+            interview_round = form.cleaned_data.get('interview_round')
+            status = form.cleaned_data.get('status')
+            new_interview = Interviews(req_id=req_id, interviewer=interviewer, candidate=candidate,interview_round=interview_round, status=status)
+            print(req_id, interviewer, candidate, interview_round, status)
+            new_interview.save()
+            return HttpResponse("success")
 
     cid = request.GET.get('cid')
     pid = request.GET.get('pid')
     args ={}
     args['cid'] = cid
     args['pid'] = pid
-    form = ScheduleForm()
-    args['form'] = form
+    candidate = Candidate.objects.filter(id=cid).first()
+    panelist = GTIPanelist.objects.filter(sid=pid).first()
+    if candidate and panelist:
+        initial_values = {
+            "req_id":str(candidate.req_id.req_id),
+            "interviewer":str(panelist.sid),
+            "candidate":str(candidate.id),
+            }
+        form = ScheduleForm(initial=initial_values)
+        args['form'] = form
+        return render(request, 'schedule_interview.html', args)
     return render(request, 'schedule_interview.html', args)
 
