@@ -44,6 +44,7 @@ from .models import Candidate, GTIPanelist
 from django.http import HttpResponse
 from .models import *
 from django.db.models import Q
+from .forms import ScheduleForm
 
 def candidate_list(request):
     # candidates = Candidate.objects.all()
@@ -82,11 +83,18 @@ def schedule_list(request):
 
 
 def schedule_interview(request):
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST)
+        if form.is_valid():
+            req_id =form.cleaned_data['req_id']
+            print(req_id)
+
     cid = request.GET.get('cid')
     pid = request.GET.get('pid')
-    print(cid, pid)
     args ={}
     args['cid'] = cid
     args['pid'] = pid
+    form = ScheduleForm()
+    args['form'] = form
     return render(request, 'schedule_interview.html', args)
 

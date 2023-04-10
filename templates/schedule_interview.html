@@ -2,8 +2,33 @@
 
 {% block content %}
 
-    <p>args: </p>
-    <p>{{cid}}</p>
-    <p>{{pid}}</p>
+<p>args: </p>
+<p>{{cid}}</p>
+<p>{{pid}}</p>
 
-{% endblock content %}
+<form action="{% url 'schedule_interview' %}" method="POST">
+    {% csrf_token %}
+    <table class="table">
+
+        {% for field in form %}
+        <tr>
+            <td>
+                {{field.label}}
+            </td>
+            <td>
+                {{field}}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="btn btn-primary"> Submit </button>
+
+            </td>
+        </tr>
+
+    </table>
+
+
+    {% endblock content %}
