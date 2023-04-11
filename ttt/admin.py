@@ -15,14 +15,27 @@ from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
 
-# class CandidateInline(admin.TabularInline):
-#     model = Interviews
-#     extra = 0
 
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ('req_id','candidate_name', 'lob' ,'interview_status', 'resume', 'view_panelist')
+    list_display = ['req_id','candidate_name', 'lob' ,'interview_status', 'available_date', 'resume',  'get_candidate_grade', 'get_candidate_internal_external',  'get_candidate_diversity', 'get_candidate_hiring_manager', 'view_panelist'] 
+
     model = Candidate
-    # inlines = [CandidateInline, ]
+
+    @admin.display(description='Grade')
+    def get_candidate_grade(self, obj):
+        return obj.req_id.grade
+    
+    @admin.display(description='Internal_External')
+    def get_candidate_internal_external(self, obj):
+        return obj.req_id.internal_external
+
+    @admin.display(description='Diversity')
+    def get_candidate_diversity(self, obj):
+        return obj.req_id.diversity
+
+    @admin.display(description='Hiring Manager')
+    def get_candidate_hiring_manager(self, obj):
+        return obj.req_id.hiring_manager
 
     def get_queryset(self, request):
         self.full_path = request.get_full_path()
