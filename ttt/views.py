@@ -53,7 +53,7 @@ def candidate_list(request):
     if candidate_id:
         candidates = list(Candidate.objects.filter(id=candidate_id).values('id','req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume'))
     else:
-        candidates = list(Candidate.objects.values('id','req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume'))
+        candidates = list(Candidate.objects.values('id','req_id','candidate_name', 'email', 'lob' ,'available_date', 'interview_status', 'resume', 'req_id__grade', 'req_id__internal_external', 'req_id__diversity', 'req_id__hiring_manager'))
 
     context = {'candidates': candidates}
     return render(request, 'candidate.html', context)

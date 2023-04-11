@@ -102,6 +102,9 @@ class Candidate(models.Model):
 
     def __str__(self) -> str:
         return self.candidate_name
+    
+    def get_all_details(self):
+        return self.candidate_name
 
 
 class GTIPanelist(models.Model):

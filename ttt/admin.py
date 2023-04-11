@@ -62,7 +62,7 @@ class InterviewsAdmin(admin.ModelAdmin):
 
 
 class RequistionAdmin(admin.ModelAdmin):
-    list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob',' grade', 'internal_external','diversity', 'req_status')
+    list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','grade', 'internal_external','diversity', 'req_status')
     list_filter = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','req_status')
 
 
