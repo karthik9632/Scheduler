@@ -21,6 +21,23 @@ REQUISTION_STATUS_CHOICES =[
     ('In-progress', 'In-progress')
     ]
 
+GRADE_CHOICES=[
+    ('601', '601'),
+    ('602', '602'),
+    ('603', '603'),
+    ('604', '604')
+]
+
+INTERNAL_EXTERNAL_CHOICES=[
+    ('Internal', 'Internal'),
+    ('External', 'External')
+]
+
+DIVERSITY_CHOICES=[
+    ('Diversity', 'Diversity'),
+    ('Non-Diversity', 'Non-Diversity'),
+]
+
 CANDIDATE_STATUS_CHOICE= [
         ('In-Process', 'In-process'),
         ('Rejected', 'Rejected'),
@@ -54,6 +71,9 @@ class Requistion(models.Model):
     start_date = models.DateField(auto_now=True, null = True)
     last_modified_date = models.DateField(null=True)
     lob = models.CharField(max_length=4, null=False, choices=TOWER_CHOICES)
+    grade = models.CharField(max_length=3, null=False, choices= GRADE_CHOICES, default="603")
+    internal_external = models.CharField(max_length=20, null=False, choices=INTERNAL_EXTERNAL_CHOICES , default="External")
+    diversity = models.CharField(max_length=20, null=False, choices=DIVERSITY_CHOICES , default="Diversity")
     req_status = models.CharField(max_length=50, choices=REQUISTION_STATUS_CHOICES)
 
     class meta:

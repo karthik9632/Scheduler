@@ -49,32 +49,33 @@ from .forms import ScheduleForm
 def candidate_list(request):
     # candidates = Candidate.objects.all()
     # context = {'candidates': candidates}
-    c_id = request.GET.get('cid')
-    if c_id:
-        candidates = list(Candidate.objects.filter(id=c_id).values('id','req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume'))
+    candidate_id = request.GET.get('cid')
+    if candidate_id:
+        candidates = list(Candidate.objects.filter(id=candidate_id).values('id','req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume'))
     else:
         candidates = list(Candidate.objects.values('id','req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume'))
-    args = {}
-    args['candidates'] = candidates
-    return render(request, 'candidate.html', args)
-    # return render(request, 'candidate.html', context=candidates.__dict__)
+
+    context = {'candidates': candidates}
+    return render(request, 'candidate.html', context)
+
 
 
 def panelists_list(request):
-    c_id = request.GET.get('cid')
-    p_id = request.GET.get('pid')
-    if c_id:
-        lob = Candidate.objects.filter(id=c_id).first().lob
-        panelists = GTIPanelist.objects.filter(~Q(lob=lob)).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')
-    elif p_id:
-        panelists = GTIPanelist.objects.filter(sid=p_id).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')    
+    candidate_id = request.GET.get('cid')
+    panelist_id = request.GET.get('pid')
+    if candidate_id:
+        lob = Candidate.objects.filter(id=candidate_id).first().lob
+        panelists = GTIPanelist.objects.filter(~Q(lob=lob)&(Q(number_of_interviews_in_a_month__lt=2))).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')
+    elif panelist_id:
+        panelists = GTIPanelist.objects.filter(sid=panelist_id).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')    
     else:
         panelists = GTIPanelist.objects.values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')    
     
-    args = {}
-    args['panelists'] = list(panelists)
-    args['candidate_id'] = c_id
-    return render(request, 'panelist.html', args)
+    context ={
+        'panelists': list(panelists),
+        'candidate_id':candidate_id
+    }
+    return render(request, 'panelist.html', context)
 
 def schedule_list(request):
     args = {}

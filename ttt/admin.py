@@ -20,7 +20,7 @@ from django.utils.safestring import mark_safe
 #     extra = 0
 
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ('req_id','candidate_name', 'email', 'lob' ,'interview_status', 'resume', 'view_panelist')
+    list_display = ('req_id','candidate_name', 'lob' ,'interview_status', 'resume', 'view_panelist')
     model = Candidate
     # inlines = [CandidateInline, ]
 
@@ -43,7 +43,7 @@ class GTIPanelsitInline(admin.TabularInline):
     extra = 0
 
 class GTIPanelsitAdmin(admin.ModelAdmin):
-    list_display = ('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location', 'schedule_interview')
+    list_display = ('sid','name', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location', 'schedule_interview')
     model = GTIPanelist
     inlines = [GTIPanelsitInline, ]
 
@@ -62,7 +62,7 @@ class InterviewsAdmin(admin.ModelAdmin):
 
 
 class RequistionAdmin(admin.ModelAdmin):
-    list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','req_status')
+    list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob',' grade', 'internal_external','diversity', 'req_status')
     list_filter = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','req_status')
 
 
