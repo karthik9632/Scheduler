@@ -8,18 +8,20 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
-                <th>id</th>
-                <th>candidate_name</th>
-                <th>req id</th>
-                <th>lob</th>
-                <th>available date</th>
-                <th>interview status</th>
-                <th>grade   </th>
-                <th>internal external   </th>
-                <th>diversity   </th>
-                <th>hiring manager   </th>
-                <th>resume   </th>
-                <th>view panelists</th>
+                <th>ID</th>
+                <th>Candidate_name</th>
+                <th>Available Date</th>
+                <th>Req id</th>
+                <th>LOB </th>
+                <th>Available date</th>
+                <th>Interview status</th>
+                <th>Grade   </th>
+                <th>Job Title</th>
+                <th>Internal external   </th>
+                <th>Diversity   </th>
+                <th>Hiring manager   </th>
+                <th>Resume   </th>
+                <th>View panelists</th>
                 </tr>
 
         </thead>
@@ -28,11 +30,13 @@
         <tr>
             <td>{{candidate.id}}</td>
             <td>{{candidate.candidate_name}}</td>
+            <td>{{candidate.available_date}}</td>
             <td>{{candidate.req_id}}</td>
             <td>{{candidate.lob}}</td>
             <td>{{candidate.available_date}}</td>
             <td>{{candidate.interview_status}}</td>
             <td>{{candidate.req_id__grade   }}</td>
+            <td>{{candidate.req_id__job_title  }}</td>
             <td>{{candidate.req_id__internal_external   }}</td>
             <td>{{candidate.req_id__diversity   }}</td>
             <td>{{candidate.req_id__hiring_manager   }}</td>

@@ -70,6 +70,7 @@ class Requistion(models.Model):
     hiring_manager  = models.CharField(max_length= 255)
     start_date = models.DateField(auto_now=True, null = True)
     last_modified_date = models.DateField(null=True)
+    job_title = models.CharField(max_length=255, default="")
     lob = models.CharField(max_length=4, null=False, choices=TOWER_CHOICES)
     grade = models.CharField(max_length=3, null=False, choices= GRADE_CHOICES, default="603")
     internal_external = models.CharField(max_length=20, null=False, choices=INTERNAL_EXTERNAL_CHOICES , default="External")

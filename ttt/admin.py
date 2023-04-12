@@ -17,14 +17,17 @@ from django.utils.safestring import mark_safe
 
 
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ['req_id','candidate_name', 'lob' ,'interview_status', 'available_date', 'resume',  'get_candidate_grade', 'get_candidate_internal_external',  'get_candidate_diversity', 'get_candidate_hiring_manager', 'view_panelist'] 
-
+    list_display = ['req_id','candidate_name', 'lob' ,'interview_status','available_date', 'get_candidate_job_title', 'get_candidate_grade', 'get_candidate_hiring_manager','get_candidate_recruiter','get_candidate_internal_external',  'get_candidate_diversity','resume', 'view_panelist'] 
     model = Candidate
 
     @admin.display(description='Grade')
     def get_candidate_grade(self, obj):
         return obj.req_id.grade
     
+    @admin.display(description='Job Title')
+    def get_candidate_job_title(self, obj):
+        return obj.req_id.job_title 
+
     @admin.display(description='Internal_External')
     def get_candidate_internal_external(self, obj):
         return obj.req_id.internal_external
@@ -36,6 +39,10 @@ class CandidateAdmin(admin.ModelAdmin):
     @admin.display(description='Hiring Manager')
     def get_candidate_hiring_manager(self, obj):
         return obj.req_id.hiring_manager
+
+    @admin.display(description='Recruiter')
+    def get_candidate_recruiter(self, obj):
+        return obj.req_id.recruiter
 
     def get_queryset(self, request):
         self.full_path = request.get_full_path()
@@ -72,7 +79,7 @@ class GTIPanelsitAdmin(admin.ModelAdmin):
 class InterviewsAdmin(admin.ModelAdmin):
     list_display = ('req_id', 'Interview_date_time', 'interviewer', 'candidate', 'created_at','cancelled_at', 'interview_round', 'status')
     list_filter = ('req_id', 'Interview_date_time', 'interviewer', 'candidate', 'created_at','cancelled_at', 'interview_round', 'status')
-
+    
 
 class RequistionAdmin(admin.ModelAdmin):
     list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','grade', 'internal_external','diversity', 'req_status')
