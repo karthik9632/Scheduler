@@ -1,0 +1,1 @@
+NOT_SAME_TOWER_RULE = 'lob != "{}"'
