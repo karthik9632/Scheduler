@@ -1,0 +1,26 @@
+1- Applying rule engine for all set of rules
+	- check if panelist is from diff tower to candidate's tower
+	- check if panelist has completed 2 rounds of int in a month. if he has completed his 2 rounds,
+	  then only present the panel list who is 0(first priority) and 1(second priority).
+	- availability(for later)
+
+2- Schedule Interview
+	fields : REQ_ID, Int date-time,  candidate, Interviewer, cancelled at, Int round, status, resume
+	
+	- when you hit on save and add other panelists button, we should be able to keep REQ_ID, Candidate, 
+	  Int date should be constants for all the three rounds
+	- only Interviewer, Int time, INT-round should change according to intv round
+	- repeat the same till we find all the three panelists according to candidate's int round
+	- once we find slots for all the three int round it should be moduled to one make visible in home page 
+	  as "scheduled interview". 
+
+
+
+    req_id = forms.IntegerField(required=True, label="Requisition ID:")
+	interview_data_time = 
+    candidate = forms.CharField(required=False)
+    interviewer = forms.CharField(required=False,)
+	cancelled_at = 
+    interview_round = forms.ChoiceField(choices=INTERVIEW_ROUND_CHOICES, required=True)
+    status = forms.ChoiceField(choices=INTERVIEW_STATUS_CHOICE, required=True)
+	result =

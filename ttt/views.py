@@ -5,6 +5,8 @@ from .models import *
 from django.db.models import Q
 from .forms import ScheduleForm
 from .rule_engine import find_different_tower
+from datetime import datetime
+
 
 def candidate_list(request):
     
@@ -53,13 +55,19 @@ def schedule_interview(request):
         if form.is_valid():
             req_id = form.cleaned_data.get('req_id')
             req_id = Requistion.objects.filter(req_id=req_id).first()
-            interviewer = form.cleaned_data.get('interviewer')
+            
+            interviewer = form.cleaned_data.get('interviewer_id')
             interviewer = GTIPanelist.objects.filter(sid=interviewer).first()
-            candidate = form.cleaned_data.get('candidate')
+            
+            candidate = form.cleaned_data.get('candidate_id')
             candidate = Candidate.objects.filter(id=candidate).first()
+            
             interview_round = form.cleaned_data.get('interview_round')
+            
             status = form.cleaned_data.get('status')
+
             new_interview = Interviews(req_id=req_id, interviewer=interviewer, candidate=candidate,interview_round=interview_round, status=status)
+            
             print(req_id, interviewer, candidate, interview_round, status)
             new_interview.save()
             return HttpResponse("success")
@@ -72,13 +80,36 @@ def schedule_interview(request):
     candidate = Candidate.objects.filter(id=cid).first()
     panelist = GTIPanelist.objects.filter(sid=pid).first()
     if candidate and panelist:
+
+        """
+        req_id from candidate.req_id.req_id            
+        """
+        
+        INTERVIEW_ROUND_CHOICES = [ 'SDLC', 'Architecture', 'Coding']
+        
+        candidate_interviews = Interviews.objects.filter(interviewer=panelist, candidate=candidate)
+        candidate_scheduled_rounds = list(set([x.interview_round for x in candidate_interviews]))
+        [INTERVIEW_ROUND_CHOICES.remove(x) for x in candidate_scheduled_rounds]
+        
+        if len(INTERVIEW_ROUND_CHOICES):
+            candidate_current_round = [(INTERVIEW_ROUND_CHOICES[0], INTERVIEW_ROUND_CHOICES[0])]
+        else:
+            candidate_current_round = [("","")]
+
         initial_values = {
             "req_id":str(candidate.req_id.req_id),
-            "interviewer":str(panelist.sid),
-            "candidate":str(candidate.id),
+            "interviewer_name":str(panelist.name),
+            "candidate_name":str(candidate.candidate_name),
+            "candidate_id":str(cid),
+            "interviewer_id":str(pid),
+            "interview_date_time": str(candidate.available_date.date()),
             }
+        
         form = ScheduleForm(initial=initial_values)
+        form.fields['interview_round'].choices = candidate_current_round
         args['form'] = form
         return render(request, 'schedule_interview.html', args)
     return render(request, 'schedule_interview.html', args)
+
+
 

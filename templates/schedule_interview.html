@@ -6,6 +6,15 @@
 <p>{{cid}}</p>
 <p>{{pid}}</p>
 
+
+<!-- <form class="form-horizontal well" action="" method="post">
+    {% csrf_token %}
+       {{ form }} </br>
+       <input type="submit" value="Submit">
+   </form> -->
+
+
+
 <form action="{% url 'schedule_interview' %}" method="POST">
     {% csrf_token %}
     <table class="table">
@@ -32,3 +41,5 @@
 
 
     {% endblock content %}
+
+</form>
