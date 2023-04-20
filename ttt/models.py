@@ -88,7 +88,7 @@ class Requistion(models.Model):
 class Candidate(models.Model):
 
     '''setup a model with Interview_candidate info'''
-
+    
     req_id = models.ForeignKey(Requistion, related_name='candidate', on_delete=models.CASCADE, null = True)
     candidate_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
@@ -137,7 +137,7 @@ class Interviews(models.Model):
     '''now gather all the data required to setup an Interview accordingly'''
 
     req_id = models.ForeignKey(Requistion, related_name="interviews", on_delete=models.CASCADE, null=True)
-    Interview_date_time = models.DateTimeField(auto_now_add=True)
+    Interview_date_time = models.DateTimeField()
     interviewer = models.ForeignKey(GTIPanelist, related_name = 'Interviews',on_delete=models.CASCADE, null =True)
     candidate = models.ForeignKey(Candidate, related_name = 'Interviews', on_delete=models.CASCADE, null =True)
     created_at = models.DateTimeField(auto_now_add=True, null = True)

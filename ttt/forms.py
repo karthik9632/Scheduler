@@ -17,7 +17,7 @@ INTERVIEW_STATUS_CHOICE= [
 
 class ScheduleForm(forms.Form):
 	req_id = forms.IntegerField(required=True, label="Requisition ID:")
-	interview_data_time = forms.DateTimeField()
+	interview_data_time = forms.DateTimeField(required=False)
 	candidate_name = forms.CharField(required=False)
 	candidate_id = forms.CharField(required=False)
 	interviewer_name = forms.CharField(required=False)

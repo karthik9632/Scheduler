@@ -31,7 +31,9 @@ def panelists_list(request):
     
     if candidate_id:
         lob = Candidate.objects.filter(id=candidate_id).first().lob
-        panelists = GTIPanelist.objects.filter(~Q(lob=lob)&(Q(number_of_interviews_in_a_month__lt=2))).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')
+        c = Candidate.objects.filter(id=candidate_id).first()
+        candidate_scheduled_round = list(set([i.interview_round for i in Interviews.objects.filter(candidate=c)]))
+        panelists = GTIPanelist.objects.filter(~Q(lob=lob)&(Q(number_of_interviews_in_a_month__lt=2))&~Q(prefered_round__in=candidate_scheduled_round)).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')
     elif panelist_id:
         panelists = GTIPanelist.objects.filter(sid=panelist_id).values('sid','name', 'email', 'lob', 'is_available','number_of_interviews_in_a_month','prefered_round', 'location')    
     else:
@@ -52,7 +54,7 @@ def schedule_list(request):
 def schedule_interview(request):
     if request.method == 'POST':
         form = ScheduleForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() or True:
             req_id = form.cleaned_data.get('req_id')
             req_id = Requistion.objects.filter(req_id=req_id).first()
             
@@ -87,14 +89,14 @@ def schedule_interview(request):
         
         INTERVIEW_ROUND_CHOICES = [ 'SDLC', 'Architecture', 'Coding']
         
-        candidate_interviews = Interviews.objects.filter(interviewer=panelist, candidate=candidate)
-        candidate_scheduled_rounds = list(set([x.interview_round for x in candidate_interviews]))
-        [INTERVIEW_ROUND_CHOICES.remove(x) for x in candidate_scheduled_rounds]
+        # candidate_interviews = Interviews.objects.filter(interviewer=panelist, candidate=candidate)
+        # candidate_scheduled_rounds = list(set([x.interview_round for x in candidate_interviews]))
+        # [INTERVIEW_ROUND_CHOICES.remove(x) for x in candidate_scheduled_rounds]
         
-        if len(INTERVIEW_ROUND_CHOICES):
-            candidate_current_round = [(INTERVIEW_ROUND_CHOICES[0], INTERVIEW_ROUND_CHOICES[0])]
-        else:
-            candidate_current_round = [("","")]
+        # if len(INTERVIEW_ROUND_CHOICES):
+        candidate_current_round = [(panelist.prefered_round, panelist.prefered_round)]
+        # else:
+        #     candidate_current_round = [("","")]
 
         initial_values = {
             "req_id":str(candidate.req_id.req_id),
