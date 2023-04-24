@@ -5,6 +5,7 @@ from django.urls import reverse, path
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import HttpResponse
+from datetime import datetime
 
 from django.shortcuts import reverse
 from django.http import HttpResponseRedirect
@@ -97,32 +98,52 @@ class GTIPanelsitAdmin(admin.ModelAdmin):
             # qs = qs.filter(candidate__id=candidate_id)
         return qs
 
-class InterviewForm(forms.ModelForm):
-    class Meta:
-        model = Interviews
-        exclude = ["name"]
+# class InterviewForm(forms.ModelForm):
+#     class Meta:
+#         model = Interviews
+#         exclude = ["name"]
+
+
+# class ScheduleForm(forms.BaseModelForm):
+#     req_id = models.ForeignKey(Requistion, related_name="interviews", on_delete=models.CASCADE, null=True)
+#     Interview_date_time = models.DateTimeField()
+#     interviewer = models.ForeignKey(GTIPanelist, related_name = 'Interviews',on_delete=models.CASCADE, null =True)
+#     candidate = models.ForeignKey(Candidate, related_name = 'Interviews', on_delete=models.CASCADE, null =True)
+#     created_at = models.DateTimeField(auto_now_add=True, null = True)
+#     cancelled_at = models.DateTimeField(blank=True, null = True)
+#     interview_round = models.CharField(max_length=255, choices=INTERVIEW_ROUND_CHOICES, null =True)
+#     status = models.CharField(max_length=22,choices=INTERVIEW_STATUS_CHOICE)
 
 
 class InterviewsAdmin(admin.ModelAdmin):
-    form = InterviewForm
+    # form = ScheduleForm
+    model = Interviews
     list_display = ('req_id', 'Interview_date_time', 'interviewer', 'candidate', 'created_at','cancelled_at', 'interview_round', 'status')
     list_filter = ('req_id', 'Interview_date_time', 'interviewer', 'candidate', 'created_at','cancelled_at', 'interview_round', 'status')
-    
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        # if candidate_id:
-            # Filter panelists based on candidate ID
-            # qs = qs.filter(candidate__id=candidate_id)
-        return qs
-
     def add_view(self, request, form_url='', extra_context=None):
-    # try:
+        # Use custom form
+        # self.form = ScheduleForm
         query_copy = request.GET.copy()
         panelist_id = query_copy.pop('pid')
         panelist_id = panelist_id[0]
         request.GET = query_copy
-        self.session_obj = request.session['schedule']['pobj'] = str(panelist_id)
-        print("reqeust")
+        self.session_obj = request.session['schedule']["pobj"] = panelist_id
+        return super().add_view(request, form_url, extra_context)
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     # if candidate_id:
+    #         # Filter panelists based on candidate ID
+    #         # qs = qs.filter(candidate__id=candidate_id)
+    #     return qs
+
+    # def add_view(self, request, form_url='', extra_context=None):
+    # # try:
+    #     query_copy = request.GET.copy()
+    #     panelist_id = query_copy.pop('pid')
+    #     panelist_id = panelist_id[0]
+    #     request.GET = query_copy
+    #     self.session_obj = request.session['schedule']['pobj'] = str(panelist_id)
+    #     print("reqeust")
 
     #     return super(InterviewForm, self).add_view(
     #         request, form_url, extra_context
@@ -130,6 +151,22 @@ class InterviewsAdmin(admin.ModelAdmin):
     # except ValidationError as e:
     #     return handle_exception(self, request, e)
 
+    def get_changeform_initial_data(self, request):
+        cobj = request.session['schedule']['cobj']
+        pobj = request.session['schedule']['pobj']
+        candidate = Candidate.objects.filter(id=cobj).first()
+        panelist = GTIPanelist.objects.filter(sid=pobj).first()
+
+        return {
+            'req_id': candidate.req_id,
+            'Interview_date_time': datetime.now(),
+            'interviewer':panelist.sid,
+            'candidate':candidate.id,
+            'cancelled_at': datetime.now(),
+            'interview_round':panelist.prefered_round
+            }
+
+ 
 
 class RequistionAdmin(admin.ModelAdmin):
     list_display = ('req_id', 'hiring_manager', 'recruiter','start_date', 'last_modified_date', 'lob','grade', 'internal_external','diversity', 'req_status')
