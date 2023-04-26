@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ttt',
-    'django_admin_multiple_choice_list_filter',
+    # 'django_admin_multiple_choice_list_filter',
+    # 'djrulengine'
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +69,7 @@ TEMPLATES = [
         },
     },
 ]
-
+ 
 WSGI_APPLICATION = 'kenyanfood.wsgi.application'
 
 

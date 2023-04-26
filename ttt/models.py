@@ -65,6 +65,7 @@ class Requistion(models.Model):
     '''Requisition ID is the ID associated with one particular job position in JPMC , Identified from a unique 9 digit REQ-ID'''
     '''set up a model on requistion '''
 
+
     req_id = models.CharField(primary_key =True,max_length=9, unique=True)
     recruiter = models.CharField(max_length=255)
     hiring_manager  = models.CharField(max_length= 255)
